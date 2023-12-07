@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: gaza.nfo
+    http:
+      paths:
+      - backend:
+          service:
+            name: hashisvc
+            port:
+              number: 5678
+        path: /
+        pathType: Prefix
+  - host: free.nfo
+    http:
+      paths:
+      - backend:
+          service:
+            name: ngxsvc
+            port:
+              number: 5678
+        path: /
+        pathType: Prefix

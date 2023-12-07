@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    app: rca
+  name: nginxpod
+spec:
+  containers:
+  - image: nginx
+    name: mypod
+    resources: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: rca
+  name: ngxsvc
+spec:
+  ports:
+  - name: 5678-8080
+    port: 5678
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: rca
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    app: wac
+  name: hashipod
+spec:
+  containers:
+  - image: hashicorp/http-echo
+    name: yourpod
+    resources: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: wac
+  name: hashisvc
+spec:
+  ports:
+  - name: 5678-8080
+    port: 5678
+    protocol: TCP
+    targetPort: 5678
+  selector:
+    app: wac

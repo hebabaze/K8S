@@ -1,0 +1,38 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: mongo
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: mongo
+subsets:
+  - addresses:
+      - ip: 196.200.160.147
+    ports:
+      - port: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  creationTimestamp: null
+  name: externalweb
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: global.nfo
+    http:
+      paths:
+      - backend:
+          service:
+            name: mongo
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
