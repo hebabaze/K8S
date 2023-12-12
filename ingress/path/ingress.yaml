@@ -1,27 +1,27 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: myingress
+  creationTimestamp: null
+  name: fanout
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
-  - host: gaza.nfo
-    http:
+  - http:
       paths:
       - backend:
           service:
             name: hashisvc
             port:
               number: 5678
-        path: /
+        path: /free
         pathType: Prefix
-  - host: free.nfo
-    http:
-      paths:
+
       - backend:
           service:
             name: ngxsvc
             port:
               number: 80
-        path: /
+        path: /gaza
         pathType: Prefix
