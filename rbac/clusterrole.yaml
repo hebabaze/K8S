@@ -1,0 +1,44 @@
+# user 'test' can delete the deployment in all namespcaes
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: krole
+rules:
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  creationTimestamp: null
+  name: krolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: krole
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: test
+---
+#user ''new'' can only delete the deployment in ASIE namespace
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  creationTimestamp: null
+  name: deletedep
+  namespace: asie
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: krole
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: new

@@ -1,0 +1,30 @@
+# user test can get only secret in name space ASIE
+# To test ==> k -n asie auth can-i get secrets --as=test
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  creationTimestamp: null
+  name: rolename
+  namespace: asie
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  creationTimestamp: null
+  name: rolebindingname
+  namespace: asie
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: rolename
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: test
